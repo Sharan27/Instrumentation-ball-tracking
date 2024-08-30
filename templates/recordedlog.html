@@ -1,0 +1,117 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <!-- Boxicons -->
+        <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+        <!-- My CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/recordedlog.css') }}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <title>
+            Raw Data page
+        </title>
+    </head>
+    <body>
+        <!-- <img src="cricketlogo.png"> -->
+        <!-- <h1>This is for Raw Data page</h1> -->
+        <nav class="navbar">
+            <div class="navbar-logo">
+              <img src="{{ url_for('static', filename='cricketballupper.png') }}" alt="Logo">
+            </div>
+            <div class="navbar-home">
+                <a href="index.html">
+                    <i class='bx bx-home'></i> <!-- Home icon from Boxicons -->
+                </a>
+            </div>
+          </nav>
+          <div class="heading">
+            <h2>LAST RECORDED EVENT</h2>
+        </div>
+    </section>
+        <div class="unitbox">
+
+            <div class="yellow-box1">
+                Average Velocity
+                <div class="inside-yellow-box-1">
+                    <span id="Speed">%TEMPERATURE%</span>m/s
+                </div>
+            </div>
+            <div class="yellow-box2">
+                Flight time
+                <div class="inside-yellow-box-2">
+                    <span id="Flight">%TEMPERATURE%</span>s
+                </div>
+            </div>
+            <div class="yellow-box3">
+                Speed at Release
+                <div class="inside-yellow-box-3">
+                    <span id="Release">%TEMPERATURE%</span>m/s
+                </div>
+            </div>
+            <div class="yellow-box4">
+                Speed after Pitch
+                <div class="inside-yellow-box-4">
+                    <span id="Pitch">%TEMPERATURE%</span>m/s
+                </div>
+            </div>
+        </div>
+        <div class="button-container">
+            <button id="clear" type="button">Clear Data</button>
+        </div>
+<script>
+ function sendData() {
+            console.log("Sending");
+            var value = "value"
+            $.ajax({
+                url: '/getData',
+                type: 'POST',
+                data: { 'data': value },
+                success: function(response) {
+                    console.log(response);
+                    var arr = response.split(',');
+                    console.log(arr);
+                    document.getElementById("Speed").innerHTML = arr[0];
+                    document.getElementById("Flight").innerHTML = arr[1];
+                    document.getElementById("Release").innerHTML = arr[2];
+                    document.getElementById("Pitch").innerHTML = arr[3];
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+    // console.log(event.data);
+    // var xhttp = new XMLHttpRequest();
+    //xhttp.onreadystatechange = function() {
+    //     if (this.readyState == 4 && this.status == 200) {
+    //     console.log(this.responseText);
+    //     var arr = this.responseText.split(',');
+    //     console.log(arr)
+    //     document.getElementById("Speed").innerHTML = arr[0];
+    //     document.getElementById("Flight").innerHTML = arr[1];
+    //     document.getElementById("Release").innerHTML = arr[2];
+    //     document.getElementById("Pitch").innerHTML = arr[3];
+    //     }
+    // };
+    // xhttp.open("GET", "http://192.168.1.7/get_data", true);
+    // xhttp.send();
+
+
+    document.getElementById('clear').addEventListener('click',(event) => {
+        document.getElementById("Speed").innerHTML = "0.00";
+        document.getElementById("Flight").innerHTML = "0.00";
+        document.getElementById("Release").innerHTML = "0.00";
+        document.getElementById("Pitch").innerHTML = "0.00";
+    });
+
+  window.addEventListener('load', onLoad);
+  function onLoad(event) {
+    sendData();
+  }
+        
+</script>
+    </body>
+</html>
+  

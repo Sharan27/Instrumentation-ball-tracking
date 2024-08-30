@@ -1,0 +1,43 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <!-- Boxicons -->
+        <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+        <!-- My CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+    
+        <title>iTraceBall</title>
+	  <script type = "text/javascript">
+  
+        	const websocket = new WebSocket(`ws://192.168.196.10/ws`)
+       		websocket.onmessage = function(event) {
+            	 	console.log(data); 
+       		 };
+
+      	  </script>
+    </head>
+    
+    <body>
+        <img src="{{ url_for('static', filename='cricketlogo.png') }}">
+        <div class="button-content">
+            <a href="newlog.html">
+                <button id="log" type="button">Start New Log</button>
+            </a>
+            <a href="recordedlog.html">
+                <button type="button">Last Recorded Log</button>
+            </a>
+            <a href="rawdata.html">
+                <button type="button">View Raw Data</button>
+            </a>
+            <a href="analysedata.html">
+                <button type="button">Analyze Data</button>
+            </a>
+            <a href="motionvisuals.html">
+                <button type="button">Visual Report</button>
+            </a>
+
+        </div>
+    </body>
+</html>

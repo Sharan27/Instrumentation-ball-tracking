@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap');
+:root{
+    --light: #ED8282;
+    --dark: #FF4E4E;
+    --white: #f3f3f3;
+    --inter: 'Inter', sans-serif;
+}
+img{
+    width: 300px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: 10px;
+}
+body{
+    margin: 0;
+    padding: 0;
+    height: auto;
+    background: linear-gradient(to right , var(--light) 50%, var(--dark) 50%);
+}
+.button-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Align items to the right */
+    position: fixed; /* Fixed positioning to keep the buttons in view */
+    top: 50%; /* Position from the top */
+    right: 0; /* Align to the right side */
+    transform: translateY(-50%); /* Center vertically */
+    margin-right: 75px;
+}
+.button-content button{
+    margin-bottom: 50px;
+}
+.button-content button:hover{
+    background-color: var(--white);
+    color: black;
+}
+button{
+    padding: 10px 24px;
+    /* border: none; */
+    border-radius: 15px;
+    border-color: var(--white);
+    transition: var(--white) 0.5s;
+    background-color: black;
+    color: var(--white);
+    font-family: var(--inter);
+    font-style: italic;
+    font-weight: bold;
+    width: 200px;
+    height: 50px;
+}

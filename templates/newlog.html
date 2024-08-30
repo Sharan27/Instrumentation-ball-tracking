@@ -1,0 +1,148 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <!-- Boxicons -->
+        <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+        <!-- My CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- this is the same stylesheet used for the intro page -->
+        <!-- <script src="newlog.js"></script> -->
+    
+        <title>iTraceBall</title>
+    </head>
+    
+    <body>
+      
+        <img src="{{ url_for('static', filename='cricketlogo.png') }}">
+        <div class="button-content"> 
+                <button id="calibrate">Caliberate Data</button>
+            
+                <button id="record">Record Data</button>
+
+        </div>
+    </body>
+    
+<script>
+  // var gateway = `ws://${window.location.hostname}/ws`;
+  var gateway = `ws://192.168.196.10/ws`;
+  var timing;
+  var websocket;
+  var Calstate;
+  var datas =[];
+  function initWebSocket() {
+    console.log('Trying to open a WebSocket connection...');
+    websocket = new WebSocket(gateway);
+    websocket.onopen    = onOpen;
+    websocket.onclose   = onClose;
+    websocket.onmessage = onMessage; // <-- add this line
+  }
+  function onOpen(event) {
+    console.log('Connection opened');
+  }
+
+  function onClose(event) {
+    console.log('Connection closed');
+    setTimeout(initWebSocket, 2000);
+  }
+  function onMessage(event) {
+    // console.log(event.data);
+    var ds = event.data;
+    if (event.data == "CalDone"){
+      document.getElementById('calibrate').innerHTML='Calibrate Data';
+      alert('Your data is Calibrated');
+    } else if(event.data.includes("{")){
+     timing = JSON.parse(event.data);
+     console.log(timing);
+     sendData(timing);
+    }
+    else if(event.data == "RecDone"){
+      document.getElementById('record').innerHTML='Record Data Again';
+      alert('Your data is Recorded');
+    }  else{
+      data_arr = event.data.split(',');
+      datas.push(data_arr);
+    }
+  }
+  
+  window.addEventListener('load', onLoad);
+  function onLoad(event) {
+    initWebSocket();
+    initButton();
+  }
+
+  function initButton() {
+    document.getElementById('calibrate').addEventListener('click', calibrate);
+    document.getElementById('record').addEventListener('click', record);
+  }
+  function calibrate(){
+     if(document.getElementById('calibrate').innerHTML=='Caliberate Data'){
+      document.getElementById('calibrate').innerHTML='Please Wait...';
+      console.log('Calibration');
+      websocket.send('Calibrate');
+     }
+    }
+  function record(){
+     if(document.getElementById('record').innerHTML=='Record Data'){
+      document.getElementById('record').innerHTML='Stop';
+      console.log('Record');
+      websocket.send('Record');
+     } else if(document.getElementById('record').innerHTML=='Stop'){
+      document.getElementById('record').innerHTML='Record Data';
+      download_csv_file();
+      websocket.send('Stop');
+      console.log(datas);
+      console.log(datas.length);
+     }
+    }
+
+  function download_csv_file()  { 
+    var csv = 'Packet number,Gyroscope X (deg/s),Gyroscope Y(deg/s),Gyroscope Z (deg/s),Accelerometer X (g),Accelerometer Y (g),Accelerometer Z (g),Magnetometer X (G),Magnetometer Y (G),Magnetometer Z (G)\n';
+    var packet_number = 0;
+    //merge the data with CSV  
+    datas.forEach(function(row) {  
+            csv += String(packet_number);
+            csv += ',';
+            csv += row.join(',');  
+            csv += ',0,0,0';
+            csv += "\n";  
+            packet_number += 1;
+      });  
+      //display the created CSV data on the web browser   
+      //document.write(csv);  
+    
+      var hiddenElement = document.createElement('a');  
+      hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);  
+      hiddenElement.target = '_blank';  
+        
+      //provide the name for the CSV file to be downloaded  
+      hiddenElement.download = 'LoggedData_CalInertialAndMag.csv';
+      hiddenElement.click();  
+    }
+
+    function sendData(value) {
+            console.log("Sending");
+            var start = value['Start'];
+            var end = value['End'];
+            var len = datas.length;
+            console.log(JSON.stringify({ 'Start': start, 'End': end, 'Length': len }));
+            $.ajax({
+                url: '/postTime',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ 'Start': start, 'End': end, 'Length': len }),
+                success: function(response) {
+                    console.log(response);
+                    console.log("Saved time")
+                },
+                error: function(error) {
+                    console.log("error");
+                    console.log(error);
+                }
+            });
+        }
+
+    </script>
+</html>

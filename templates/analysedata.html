@@ -1,0 +1,151 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Boxicons -->
+  <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+  <!-- My CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/analysedata.css') }}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <title>
+    Analyze Data page
+  </title>
+</head>
+
+<body>
+
+    <nav class="navbar">
+      <div class="navbar-logo">
+        <img src="{{ url_for('static', filename='cricketballupper.png') }}" alt="Logo">
+      </div>
+      <div class="navbar-home">
+        <a href="index.html">
+          <i class='bx bx-home'></i> <!-- Home icon from Boxicons -->
+        </a>
+      </div>
+    </nav>
+    <div class="heading">
+      <h2>ANALYZE DATA</h2>
+    </div>
+    <div class="container">
+      <div class="textbox-container">
+        <label for="textbox1">Flight time:</label>
+        <input type="text" id="textbox1" class="textbox" oninput="restrictInput(this)">
+        <div class="radiobutton">
+          <input type="radio" id="option1_1" name="options1" value="Min">
+          <label for="option1_1">Min</label>
+          <input type="radio" id="option2_1" name="options1" value="Max">
+          <label for="option2">Max</label>
+        </div>
+      </div>
+      <div class="textbox-container">
+        <label for="textbox2">Avergae speed:</label>
+        <input type="text" id="textbox2" class="textbox" oninput="restrictInput(this)">
+        <div class="radiobutton">
+          <input type="radio" id="option1_2" name="options2" value="Min">
+          <label for="option1">Min</label>
+          <input type="radio" id="option2_2" name="options2" value="Max">
+          <label for="option2">Max</label>
+        </div>
+      </div>
+      <div class="textbox-container">
+        <label for="textbox3"> Spin X:</label>
+        <input type="text" id="textbox3" class="textbox" oninput="restrictInput(this)">
+        <div class="radiobutton">
+          <input type="radio" id="option1_3" name="options3" value="Min">
+          <label for="option1">Min</label>
+          <input type="radio" id="option2_3" name="options3" value="Max">
+          <label for="option2">Max</label>
+        </div>
+      </div>
+      <div class="textbox-container">
+        <label for="textbox4">Release speed:</label>
+        <input type="text" id="textbox4" class="textbox" oninput="restrictInput(this)">
+        <div class="radiobutton">
+          <input type="radio" id="option1_4" name="options4" value="Min">
+          <label for="option1">Min</label>
+          <input type="radio" id="option2_4" name="options4" value="Max">
+          <label for="option2">Max</label>
+        </div>
+      </div>
+        <div class="textbox-container">
+        <label for="textbox5">Speed after Pitch:</label>
+        <input type="text" id="textbox5" class="textbox" oninput="restrictInput(this)">
+        <div class="radiobutton">
+          <input type="radio" id="option1_5" name="options5" value="Min">
+          <label for="option1">Min</label>
+          <input type="radio" id="option2_5" name="options5" value="Max">
+          <label for="option2">Max</label>
+        </div>
+      </div>
+    <button onclick="printValues()">Analyse Data</button>
+    </div>
+
+    <script>
+      function printValues() {
+          let values = [];
+          let value2 = [];
+
+          // Retrieve values of all textboxes and restrict them to be between 0 and 1
+          for (let i = 1; i <= 5; i++) {
+            let textbox = document.getElementById('textbox' + i);
+            if (!textbox) {
+              console.error("Textbox " + i + " not found.");
+              continue; // Skip to the next iteration if the textbox is not found
+            }
+
+            let value = parseFloat(textbox.value);
+            if (!isValidValue(value)) {
+              alert("Please enter a value between 0 and 1 for Textbox " + i);
+              return;
+            }
+            values.push(value);
+          }
+          console.log(values);
+
+          // Retrieve selected radio button values
+          for (let i = 1; i <= 5; i++) {
+            let radios = document.getElementsByName('options' + i);
+            let selectedValue = null;
+            radios.forEach(radio => {
+              if (radio.checked) {
+                selectedValue = radio.value;
+              }
+            });
+
+            value2.push(selectedValue);
+          }
+          console.log(value2);
+          sendData(values,value2);
+        }
+
+        function isValidValue(value) {
+          // Check if the value is a number and within the range [0, 1]
+          return !isNaN(value) && value >= 0 && value <= 1;
+        }
+
+
+      function sendData(value1,value2) {
+        console.log("Sending");
+        $.ajax({
+            url: '/analyse',
+            type: 'POST',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify({ 'Weightage': value1, 'Minmax': value2 }),
+            success: function(response) {
+                console.log(response);
+                console.log("Saved time")
+            },
+            error: function(error) {
+                console.log("error");
+                console.log(error);
+            }
+        });
+    }
+    </script>
+    </body>
+
+</html>

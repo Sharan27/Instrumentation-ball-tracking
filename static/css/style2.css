@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+    --light: #ED8282;
+    --dark: #FF4E4E;
+    --white: #f3f3f3;
+    --inter: 'Inter', sans-serif;
+}
+
+img {
+    width: 70%; /* Adjust the image width based on the screen size */
+    max-width: 300px; /* Set a maximum width for the image */
+    margin-top: 35vh; /* Adjust the top margin based on the screen height */
+    margin-bottom: 5vh; /* Adjust the bottom margin based on the screen height */
+    margin-left: 17vw; /* Adjust the left margin based on the screen width */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Set the body height to the full viewport height */
+    background: linear-gradient(to right, var(--light) 50%, var(--dark) 50%);
+}
+
+.button-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Center items horizontally */
+    position: absolute; /* Absolute positioning to keep the buttons in view */
+    top: 50%;
+    right: 15vw; /* Adjust the right position based on the screen width */
+    transform: translateY(-50%); /* Center vertically */
+}
+
+.button-content button {
+    margin-bottom: 5vh; /* Adjust the bottom margin based on the screen height */
+}
+
+.button-content button:hover {
+    background-color: var(--white);
+    color: black;
+}
+
+button {
+    padding: 2vh 4vw; /* Adjust padding based on screen size */
+    border-radius: 3vw; /* Adjust border-radius based on screen size */
+    border-color: var(--white);
+    transition: var(--white) 0.5s;
+    background-color: black;
+    color: var(--white);
+    font-family: var(--inter);
+    font-style: italic;
+    font-weight: bold;
+    max-width: 80vw; /* Limit button width based on screen size */
+    max-height: 10vh; /* Limit button height based on screen size */
+}
+
+.yellow-box1 {
+    width: 200px; /* Adjust width as needed */
+    height: 100px; /* Adjust height as needed */
+    background-color: yellow;
+    color: black;
+    padding: 20px; /* Adjust padding as needed */
+  }
+.yellow-box2 {
+    width: 200px; /* Adjust width as needed */
+    height: 100px; /* Adjust height as needed */
+    background-color: yellow;
+    color: black;
+    padding: 20px; /* Adjust padding as needed */
+  }
+.yellow-box3 {
+    width: 200px; /* Adjust width as needed */
+    height: 100px; /* Adjust height as needed */
+    background-color: yellow;
+    color: black;
+    padding: 20px; /* Adjust padding as needed */
+  }
+.yellow-box4 {
+    width: 200px; /* Adjust width as needed */
+    height: 100px; /* Adjust height as needed */
+    background-color: yellow;
+    color: black;
+    padding: 20px; /* Adjust padding as needed */
+  }
+
+@media (max-width: 768px) {
+    img {
+        width: 80%; /* Adjust the image width for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    img {
+        width: 90%; /* Adjust the image width for even smaller screens */
+    }
+}

@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <!-- Boxicons -->
+        <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+        <!-- My CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/motionvisuals.css') }}">
+        <title>
+            Visuals page
+        </title>
+    </head>
+    <body>
+        <!-- <img src="cricket logo.png"> -->
+        <!-- <h1>This is for Raw Data page</h1> -->
+        <!-- This comment is for git understanding -->
+        <nav class="navbar">
+            <div class="navbar-logo">
+              <img src="{{ url_for('static', filename='cricketlogo.png') }}" alt="Logo">
+            </div>
+            <div class="navbar-home">
+                <a href="index.html">
+                    <i class='bx bx-home'></i> <!-- Home icon from Boxicons -->
+                </a>
+            </div>
+          </nav>
+          <div class="heading">
+            <h2>VISUALISING DATA</h2>
+        </div>
+    </section>
+    <div class="carousel">
+        <div class="carousel-container">
+          <img src="{{ url_for('static', filename='Tilt-compensated_accelerometer.png') }}" id="myImage" class="carousel-image" alt="Image 1">
+          <img src="{{ url_for('static', filename='Gyroscope.png') }}" id="myImage1" class="carousel-image" alt="Image 2">
+          <img src="{{ url_for('static', filename='High-pass_filtered_Linear_Velocity.png') }}" id="myImage2" class="carousel-image" alt="Image 3">
+          <img src="{{ url_for('static', filename='High-pass_filtered_linear_position.png') }}" id="myImage3" class="carousel-image" alt="Image 4">
+          <img src="{{ url_for('static', filename='vs1.jpeg') }}" id="myImage4" class="carousel-image" alt="Image 5">
+          <img src="{{ url_for('static', filename='violinplot.png') }}" id="myImage5" class="carousel-image" alt="Image 6">
+          <img src="{{ url_for('static', filename='heatmap.png') }}" id="myImage6" class="carousel-image" alt="Image 7">
+
+
+        </div>
+        <button class="prev" id="myImage9" onclick="prevImage()">&#10094;</button>
+        <button class="next" id="myImage10" onclick="nextImage()">&#10095;</button>
+      </div>
+        <div class="button-container">
+            <button onclick="clearImage()" type="button">Clear Data</button>
+        </div>
+        <script>
+            let currentIndex = 0;
+            const images = document.querySelectorAll('.carousel-image');
+
+            function showImage(index) {
+              if (index >= images.length) {
+                currentIndex = 0;
+              } else if (index < 0) {
+                currentIndex = images.length - 1;
+              }
+
+              images.forEach((image, i) => {
+                if (i === currentIndex) {
+                  image.style.display = 'block';
+                } else {
+                  image.style.display = 'none';
+                }
+              });
+            }
+
+            function prevImage() {
+              currentIndex--;
+              showImage(currentIndex);
+            }
+
+            function nextImage() {
+              currentIndex++;
+              showImage(currentIndex);
+            }
+
+            // Show the first image initially
+            showImage(currentIndex);
+            function clearImage() {
+                document.getElementById('myImage').src = '';
+            }
+            
+        </script>
+    </body>
+</html>
+  
